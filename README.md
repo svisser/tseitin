@@ -3,8 +3,8 @@ go-tseitin
 
 Command-line tool written in Go implementing the Tseitin transformation.
 
-Formula parser currently does not support negated formulas with connectives
-or Unicode literals. All formulas, including literals, need to be provided
+Formula parser currently does not support Unicode or negation of formulas that
+aren't literals. All formulas, including literals, need to be provided
 with parentheses. 
 
 Algorithm was published in:
