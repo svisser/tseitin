@@ -27,6 +27,15 @@ func parseFormula(f string) *Formula {
 			}
 		}
 	}
+	if strings.HasPrefix(f, "~") {
+		leftFormula := parseFormula(f[1:])
+		result := Formula{
+			value: "~",
+			left:  leftFormula,
+			right: nil,
+		}
+		return &result
+	}
 	result := Formula{
 		value: f,
 		left:  nil,
