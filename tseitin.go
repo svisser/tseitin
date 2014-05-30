@@ -27,7 +27,13 @@ func printFormula(formula Formula) string {
     if formula.right != nil {
         rightString = printFormula(*formula.right)
     }
-    return "(" + leftString + formula.value + rightString + ")"
+    openString := "("
+    closeString := ")"
+    if formula.left == nil && formula.right == nil {
+        openString = ""
+        closeString = ""
+    }
+    return openString + leftString + formula.value + rightString + closeString
 }
 
 func main() {
