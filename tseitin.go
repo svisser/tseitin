@@ -2,6 +2,7 @@ package main
 
 import "flag"
 import "fmt"
+import "strings"
 
 type Formula struct {
 	value string
@@ -9,13 +10,23 @@ type Formula struct {
 	right *Formula
 }
 
-func parseFormula(f string) Formula {
+func parseFormula(f string) *Formula {
+    if strings.HasPrefix(f, "(") && strings.HasSuffix(f, ")") {
+        leftFormula := parseFormula(f[1:strings.Index(f, ")^(")])
+        rightFormula := parseFormula(f[strings.Index(f, ")^("):len(f) - 1])
+        result := Formula{
+            value: "^",
+            left: leftFormula,
+            right: rightFormula,
+        }
+        return &result
+    }
 	result := Formula{
 		value: f,
 		left: nil,
 		right: nil,
 	}
-	return result
+	return &result
 }
 
 func printFormula(formula Formula) string {
