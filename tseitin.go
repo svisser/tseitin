@@ -12,14 +12,20 @@ type Formula struct {
 
 func parseFormula(f string) *Formula {
     if strings.HasPrefix(f, "(") && strings.HasSuffix(f, ")") {
-        leftFormula := parseFormula(f[1:strings.Index(f, ")^(")])
-        rightFormula := parseFormula(f[strings.Index(f, ")^("):len(f) - 1])
-        result := Formula{
-            value: "^",
-            left: leftFormula,
-            right: rightFormula,
+        for _, connective := range []string{"^", "v", ">"} {
+            if strings.Contains(f, connective) {
+                endLeft := strings.Index(f, ")" + connective + "(") + 1
+                startRight := strings.Index(f, ")" + connective + "(") + 2
+                leftFormula := parseFormula(f[1:endLeft])
+                rightFormula := parseFormula(f[startRight:len(f) - 1])
+                result := Formula{
+                    value: connective,
+                    left: leftFormula,
+                    right: rightFormula,
+                }
+                return &result
+            }
         }
-        return &result
     }
 	result := Formula{
 		value: f,
