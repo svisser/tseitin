@@ -5,11 +5,15 @@ import "fmt"
 
 type Formula struct {
 	value string
+	left *Formula
+	right *Formula
 }
 
 func parseFormula(f string) Formula {
 	result := Formula{
 		value: f,
+		left: nil,
+		right: nil,
 	}
 	return result
 }
