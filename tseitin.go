@@ -51,5 +51,5 @@ func main() {
 	formulaString := flag.String("formula", "", "The formula in propositional logic")
 	flag.Parse()
 	formula := parseFormula(*formulaString)
-	fmt.Println("Formula: " + formula.value)
+	fmt.Println("Formula: " + printFormula(*formula))
 }
