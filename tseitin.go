@@ -18,6 +18,18 @@ func parseFormula(f string) Formula {
 	return result
 }
 
+func printFormula(formula Formula) string {
+    leftString := ""
+    if formula.left != nil {
+        leftString = printFormula(*formula.left)
+    }
+    rightString := ""
+    if formula.right != nil {
+        rightString = printFormula(*formula.right)
+    }
+    return "(" + leftString + formula.value + rightString + ")"
+}
+
 func main() {
 	formulaString := flag.String("formula", "", "The formula in propositional logic")
 	flag.Parse()
