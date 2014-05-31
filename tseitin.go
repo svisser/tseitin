@@ -2,6 +2,7 @@ package main
 
 import "flag"
 import "fmt"
+import "strconv"
 import "strings"
 
 type Formula struct {
@@ -62,9 +63,33 @@ func printFormula(formula Formula) string {
 	return openString + leftString + formula.value + rightString + closeString
 }
 
+func getLiteralName(number int) string {
+	return "p" + strconv.Itoa(number+1)
+}
+
+func gatherNames(names map[string]string, formula *Formula) {
+	if formula == nil {
+		return
+	}
+	gatherNames(names, formula.left)
+	gatherNames(names, formula.right)
+	displayFormula := printFormula(*formula)
+	_, ok := names[displayFormula]
+	if !ok {
+		names[displayFormula] = getLiteralName(len(names))
+	}
+}
+
 func main() {
 	formulaString := flag.String("formula", "", "The formula in propositional logic")
 	flag.Parse()
 	formula := parseFormula(*formulaString)
+
+	names := map[string]string{}
+	gatherNames(names, formula)
+	for key, value := range names {
+		fmt.Println(key + ": " + value)
+	}
+
 	fmt.Println("Formula: " + printFormula(*formula))
 }
