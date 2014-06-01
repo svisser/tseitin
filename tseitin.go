@@ -87,8 +87,8 @@ func main() {
 
 	names := map[string]string{}
 	gatherNames(names, formula)
-	for key, value := range names {
-		fmt.Println(key + ": " + value)
+	for subformula, name := range names {
+		fmt.Println(name + ": " + subformula)
 	}
 
 	fmt.Println("Formula: " + printFormula(*formula))
