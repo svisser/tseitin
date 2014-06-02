@@ -11,9 +11,11 @@ type Formula struct {
 	right *Formula
 }
 
+var connectives = []string{"^", "v", ">"}
+
 func parseFormula(f string) *Formula {
 	if strings.HasPrefix(f, "(") && strings.HasSuffix(f, ")") {
-		for _, connective := range []string{"^", "v", ">"} {
+		for _, connective := range connectives {
 			if strings.Contains(f, connective) {
 				endLeft := strings.Index(f, ")"+connective+"(") + 1
 				startRight := strings.Index(f, ")"+connective+"(") + 2
