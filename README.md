@@ -5,7 +5,7 @@ Command-line tool written in Go implementing the Tseitin transformation.
 
 Formula parser currently does not support Unicode or negation of formulas that
 aren't literals. All formulas, including literals, need to be provided
-with parentheses. 
+with parentheses. Lastly, literals cannot contain connectives in their name.
 
 Algorithm was published in:
 
