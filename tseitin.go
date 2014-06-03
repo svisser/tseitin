@@ -5,23 +5,24 @@ import "fmt"
 import "strconv"
 import "strings"
 
-type Formula struct {
+type formula struct {
 	value string
-	left  *Formula
-	right *Formula
+	left  *formula
+	right *formula
 }
 
 var connectives = []string{"^", "v", ">"}
 
-func parseFormula(f string) *Formula {
+func parseFormula(f string) *formula {
 	if strings.HasPrefix(f, "(") && strings.HasSuffix(f, ")") {
 		for _, connective := range connectives {
 			if strings.Contains(f, connective) {
 				endLeft := strings.Index(f, ")"+connective+"(") + 1
 				startRight := strings.Index(f, ")"+connective+"(") + 2
+				fmt.Println("TEST ONE: " + f[1:endLeft] + " from " + f)
 				leftFormula := parseFormula(f[1:endLeft])
 				rightFormula := parseFormula(f[startRight : len(f)-1])
-				result := Formula{
+				result := formula{
 					value: connective,
 					left:  leftFormula,
 					right: rightFormula,
@@ -32,14 +33,14 @@ func parseFormula(f string) *Formula {
 	}
 	if strings.HasPrefix(f, "~") {
 		leftFormula := parseFormula(f[1:])
-		result := Formula{
+		result := formula{
 			value: "~",
 			left:  leftFormula,
 			right: nil,
 		}
 		return &result
 	}
-	result := Formula{
+	result := formula{
 		value: f,
 		left:  nil,
 		right: nil,
@@ -47,7 +48,7 @@ func parseFormula(f string) *Formula {
 	return &result
 }
 
-func printFormula(formula Formula) string {
+func printFormula(formula formula) string {
 	leftString := ""
 	if formula.left != nil {
 		leftString = printFormula(*formula.left)
@@ -69,7 +70,7 @@ func getLiteralName(number int) string {
 	return "p" + strconv.Itoa(number+1)
 }
 
-func gatherNames(names map[*Formula]string, formula *Formula) {
+func gatherNames(names map[*formula]string, formula *formula) {
 	if formula == nil {
 		return
 	}
@@ -81,31 +82,31 @@ func gatherNames(names map[*Formula]string, formula *Formula) {
 	}
 }
 
-func shortenFormula(names map[*Formula]string, formula *Formula) *Formula {
-	if formula.left == nil && formula.right == nil {
-		literal_formula := Formula{
-			value: names[formula],
+func shortenFormula(names map[*formula]string, f *formula) *formula {
+	if f.left == nil && f.right == nil {
+		literal_formula := formula{
+			value: names[f],
 			left:  nil,
 			right: nil,
 		}
 		return &literal_formula
 	}
-	result := Formula{
-		value: formula.value,
+	result := formula{
+		value: f.value,
 		left:  nil,
 		right: nil,
 	}
-	if formula.left != nil {
-		left_formula := Formula{
-			value: names[formula.left],
+	if f.left != nil {
+		left_formula := formula{
+			value: names[f.left],
 			left:  nil,
 			right: nil,
 		}
 		result.left = &left_formula
 	}
-	if formula.right != nil {
-		right_formula := Formula{
-			value: names[formula.right],
+	if f.right != nil {
+		right_formula := formula{
+			value: names[f.right],
 			left:  nil,
 			right: nil,
 		}
@@ -117,12 +118,12 @@ func shortenFormula(names map[*Formula]string, formula *Formula) *Formula {
 func main() {
 	formulaString := flag.String("formula", "", "The formula in propositional logic")
 	flag.Parse()
-	formula := parseFormula(*formulaString)
+	f := parseFormula(*formulaString)
 
 	fmt.Println("Shorter names:")
-	names := map[*Formula]string{}
-	gatherNames(names, formula)
-	shortNames := map[*Formula]*Formula{}
+	names := map[*formula]string{}
+	gatherNames(names, f)
+	shortNames := map[*formula]*formula{}
 	for subformula, name := range names {
 		shortNames[subformula] = shortenFormula(names, subformula)
 		fmt.Println(name + ": " +
@@ -131,7 +132,7 @@ func main() {
 	}
 
 	fmt.Println("Components:")
-	fmt.Println(names[formula])
+	fmt.Println(names[f])
 
 	for subformula, shortSubformula := range shortNames {
 		if subformula.left != nil || subformula.right != nil {
@@ -139,5 +140,5 @@ func main() {
 		}
 	}
 
-	fmt.Println("Formula: " + printFormula(*formula))
+	fmt.Println("Formula: " + printFormula(*f))
 }
