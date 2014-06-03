@@ -11,6 +11,14 @@ func TestParseFormulaLiteral(t *testing.T) {
 	fmt.Println(result.value)
 }
 
+func TestParseFormulaLiteralWithConnective(t *testing.T) {
+	result := parseFormula("(a^)")
+	if result.value != "(a^)" {
+		t.Error("TestParseFormulaLiteralWithConnective failed: " + result.value)
+	}
+	fmt.Println(result.value)
+}
+
 func TestParseFormulaConjunction(t *testing.T) {
 	result := parseFormula("((a)^(b))")
 	if result.value != "^" {

@@ -16,9 +16,10 @@ var connectives = []string{"^", "v", ">"}
 func parseFormula(f string) *formula {
 	if strings.HasPrefix(f, "(") && strings.HasSuffix(f, ")") {
 		for _, connective := range connectives {
-			if strings.Contains(f, connective) {
+			if strings.Contains(f, ")"+connective+"(") {
 				endLeft := strings.Index(f, ")"+connective+"(") + 1
 				startRight := strings.Index(f, ")"+connective+"(") + 2
+				fmt.Println(f + " " + strconv.Itoa(endLeft))
 				leftFormula := parseFormula(f[1:endLeft])
 				rightFormula := parseFormula(f[startRight : len(f)-1])
 				result := formula{
