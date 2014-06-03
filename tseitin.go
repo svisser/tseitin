@@ -71,14 +71,14 @@ func getLiteralName(number int) string {
 }
 
 func gatherNames(names map[*formula]string, f *formula) {
-	if formula == nil {
+	if f == nil {
 		return
 	}
 	gatherNames(names, f.left)
 	gatherNames(names, f.right)
 	_, ok := names[f]
 	if !ok {
-		names[formula] = getLiteralName(len(names))
+		names[f] = getLiteralName(len(names))
 	}
 }
 
