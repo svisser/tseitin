@@ -69,16 +69,15 @@ func getLiteralName(number int) string {
 	return "p" + strconv.Itoa(number+1)
 }
 
-func gatherNames(names map[string]string, formula *Formula) {
+func gatherNames(names map[*Formula]string, formula *Formula) {
 	if formula == nil {
 		return
 	}
 	gatherNames(names, formula.left)
 	gatherNames(names, formula.right)
-	displayFormula := printFormula(*formula)
-	_, ok := names[displayFormula]
+	_, ok := names[formula]
 	if !ok {
-		names[displayFormula] = getLiteralName(len(names))
+		names[formula] = getLiteralName(len(names))
 	}
 }
 
@@ -87,11 +86,11 @@ func main() {
 	flag.Parse()
 	formula := parseFormula(*formulaString)
 
-	names := map[string]string{}
+	names := map[*Formula]string{}
 	gatherNames(names, formula)
 	for subformula, name := range names {
-		fmt.Println(name + ": " + subformula)
+		fmt.Println(name + ": " + printFormula(*subformula))
 	}
-
+	
 	fmt.Println("Formula: " + printFormula(*formula))
 }
