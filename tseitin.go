@@ -48,14 +48,14 @@ func parseFormula(f string) *formula {
 	return &result
 }
 
-func printFormula(f formula) string {
+func (f *formula) String() string {
 	leftString := ""
 	if f.left != nil {
-		leftString = printFormula(*f.left)
+		leftString = (*f.left).String()
 	}
 	rightString := ""
 	if f.right != nil {
-		rightString = printFormula(*f.right)
+		rightString = (*f.right).String()
 	}
 	openString := "("
 	closeString := ")"
@@ -127,8 +127,8 @@ func main() {
 	for subformula, name := range names {
 		shortNames[subformula] = shortenFormula(names, subformula)
 		fmt.Println(name + ": " +
-			printFormula(*shortNames[subformula]) + ": " +
-			printFormula(*subformula))
+			(*shortNames[subformula]).String() + ": " +
+			(*subformula).String())
 	}
 
 	fmt.Println("Components:")
@@ -136,9 +136,9 @@ func main() {
 
 	for subformula, shortSubformula := range shortNames {
 		if subformula.left != nil || subformula.right != nil {
-			fmt.Println(printFormula(*shortSubformula))
+			fmt.Println((*shortSubformula).String())
 		}
 	}
 
-	fmt.Println("Formula: " + printFormula(*f))
+	fmt.Println("Formula: " + (*f).String())
 }
