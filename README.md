@@ -8,7 +8,7 @@ This project was written to learn Go. It is not intended for use in production.
 Formula parser currently does not support Unicode or negation of formulas that
 aren't literals. All formulas, including literals, need to be provided
 with parentheses. Lastly, literals cannot contain connectives in their name.
-These restrictions can be fixed by using a better lexer / parser but that is
+These restrictions can be fixed by using a lexer / parser but that is
 beyond the scope of this project.
 
 Algorithm was published in:
