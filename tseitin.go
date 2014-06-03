@@ -81,14 +81,14 @@ func gatherNames(names map[*Formula]string, formula *Formula) {
 	}
 }
 
-func shortenFormula(names map[*Formula]string, formula *Formula) Formula {
+func shortenFormula(names map[*Formula]string, formula *Formula) *Formula {
 	if formula.left == nil && formula.right == nil {
 		literal_formula := Formula{
 			value: names[formula],
 			left:  nil,
 			right: nil,
 		}
-		return literal_formula
+		return &literal_formula
 	}
 	result := Formula{
 		value: formula.value,
@@ -111,7 +111,7 @@ func shortenFormula(names map[*Formula]string, formula *Formula) Formula {
 		}
 		result.right = &right_formula
 	}
-	return result
+	return &result
 }
 
 func main() {
@@ -119,11 +119,24 @@ func main() {
 	flag.Parse()
 	formula := parseFormula(*formulaString)
 
+	fmt.Println("Shorter names:")
 	names := map[*Formula]string{}
 	gatherNames(names, formula)
+	shortNames := map[*Formula]*Formula{}
 	for subformula, name := range names {
-		fmt.Println(name + ": " + printFormula(*subformula))
-		fmt.Println(printFormula(shortenFormula(names, subformula)))
+		shortNames[subformula] = shortenFormula(names, subformula)
+		fmt.Println(name + ": " +
+			printFormula(*shortNames[subformula]) + ": " +
+			printFormula(*subformula))
+	}
+
+	fmt.Println("Components:")
+	fmt.Println(names[formula])
+
+	for subformula, shortSubformula := range shortNames {
+		if subformula.left != nil || subformula.right != nil {
+			fmt.Println(printFormula(*shortSubformula))
+		}
 	}
 
 	fmt.Println("Formula: " + printFormula(*formula))
