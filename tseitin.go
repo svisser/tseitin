@@ -1,9 +1,11 @@
 package main
 
-import "flag"
-import "fmt"
-import "strconv"
-import "strings"
+import (
+    "flag"
+    "fmt"
+    "strconv"
+    "strings"
+)
 
 type formula struct {
 	value string
