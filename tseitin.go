@@ -84,12 +84,12 @@ func gatherNames(names map[*formula]string, f *formula) {
 
 func shortenFormula(names map[*formula]string, f *formula) *formula {
 	if f.left == nil && f.right == nil {
-		literal_formula := formula{
+		literalFormula := formula{
 			value: names[f],
 			left:  nil,
 			right: nil,
 		}
-		return &literal_formula
+		return &literalFormula
 	}
 	result := formula{
 		value: f.value,
@@ -97,20 +97,20 @@ func shortenFormula(names map[*formula]string, f *formula) *formula {
 		right: nil,
 	}
 	if f.left != nil {
-		left_formula := formula{
+		leftFormula := formula{
 			value: names[f.left],
 			left:  nil,
 			right: nil,
 		}
-		result.left = &left_formula
+		result.left = &leftFormula
 	}
 	if f.right != nil {
-		right_formula := formula{
+		rightFormula := formula{
 			value: names[f.right],
 			left:  nil,
 			right: nil,
 		}
-		result.right = &right_formula
+		result.right = &rightFormula
 	}
 	return &result
 }
