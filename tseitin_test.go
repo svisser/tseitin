@@ -1,8 +1,8 @@
 package main
 
 import (
-    "fmt"
-    "testing"
+	"fmt"
+	"testing"
 )
 
 func TestParseFormulaLiteral(t *testing.T) {

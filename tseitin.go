@@ -1,10 +1,10 @@
 package main
 
 import (
-    "flag"
-    "fmt"
-    "strconv"
-    "strings"
+	"flag"
+	"fmt"
+	"strconv"
+	"strings"
 )
 
 type formula struct {
