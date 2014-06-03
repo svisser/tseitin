@@ -19,7 +19,6 @@ func parseFormula(f string) *formula {
 			if strings.Contains(f, connective) {
 				endLeft := strings.Index(f, ")"+connective+"(") + 1
 				startRight := strings.Index(f, ")"+connective+"(") + 2
-				fmt.Println("TEST ONE: " + f[1:endLeft] + " from " + f)
 				leftFormula := parseFormula(f[1:endLeft])
 				rightFormula := parseFormula(f[startRight : len(f)-1])
 				result := formula{
