@@ -81,6 +81,39 @@ func gatherNames(names map[*Formula]string, formula *Formula) {
 	}
 }
 
+func shortenFormula(names map[*Formula]string, formula *Formula) Formula {
+	if formula.left == nil && formula.right == nil {
+		literal_formula := Formula{
+			value: names[formula],
+			left:  nil,
+			right: nil,
+		}
+		return literal_formula
+	}
+	result := Formula{
+		value: formula.value,
+		left:  nil,
+		right: nil,
+	}
+	if formula.left != nil {
+		left_formula := Formula{
+			value: names[formula.left],
+			left:  nil,
+			right: nil,
+		}
+		result.left = &left_formula
+	}
+	if formula.right != nil {
+		right_formula := Formula{
+			value: names[formula.right],
+			left:  nil,
+			right: nil,
+		}
+		result.right = &right_formula
+	}
+	return result
+}
+
 func main() {
 	formulaString := flag.String("formula", "", "The formula in propositional logic")
 	flag.Parse()
@@ -90,7 +123,8 @@ func main() {
 	gatherNames(names, formula)
 	for subformula, name := range names {
 		fmt.Println(name + ": " + printFormula(*subformula))
+		fmt.Println(printFormula(shortenFormula(names, subformula)))
 	}
-	
+
 	fmt.Println("Formula: " + printFormula(*formula))
 }
