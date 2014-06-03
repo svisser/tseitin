@@ -48,35 +48,35 @@ func parseFormula(f string) *formula {
 	return &result
 }
 
-func printFormula(formula formula) string {
+func printFormula(f formula) string {
 	leftString := ""
-	if formula.left != nil {
-		leftString = printFormula(*formula.left)
+	if f.left != nil {
+		leftString = printFormula(*f.left)
 	}
 	rightString := ""
-	if formula.right != nil {
-		rightString = printFormula(*formula.right)
+	if f.right != nil {
+		rightString = printFormula(*f.right)
 	}
 	openString := "("
 	closeString := ")"
-	if formula.left == nil && formula.right == nil {
+	if f.left == nil && f.right == nil {
 		openString = ""
 		closeString = ""
 	}
-	return openString + leftString + formula.value + rightString + closeString
+	return openString + leftString + f.value + rightString + closeString
 }
 
 func getLiteralName(number int) string {
 	return "p" + strconv.Itoa(number+1)
 }
 
-func gatherNames(names map[*formula]string, formula *formula) {
+func gatherNames(names map[*formula]string, f *formula) {
 	if formula == nil {
 		return
 	}
-	gatherNames(names, formula.left)
-	gatherNames(names, formula.right)
-	_, ok := names[formula]
+	gatherNames(names, f.left)
+	gatherNames(names, f.right)
+	_, ok := names[f]
 	if !ok {
 		names[formula] = getLiteralName(len(names))
 	}
