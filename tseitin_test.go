@@ -3,7 +3,7 @@ package main
 import "fmt"
 import "testing"
 
-func Test_parseFormulaLiteral(t *testing.T) {
+func TestParseFormulaLiteral(t *testing.T) {
 	result := parseFormula("(a)")
 	if result.value != "(a)" {
 		t.Error("Test_parseFormulaLiteral failed: " + result.value)
@@ -11,7 +11,7 @@ func Test_parseFormulaLiteral(t *testing.T) {
 	fmt.Println(result.value)
 }
 
-func Test_parseFormulaConjunction(t *testing.T) {
+func TestParseFormulaConjunction(t *testing.T) {
 	result := parseFormula("((a)^(b))")
 	if result.value != "^" {
 		t.Error("Test_parseFormulaConjunction failed for connective: " + result.value)
